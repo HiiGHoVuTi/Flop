@@ -25,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static final List<Widget> _ScreensOptions = <Widget>[
+  static final List<Widget> _screensOptions = <Widget>[
     Column(
       children: [
         const Padding(
@@ -61,6 +61,10 @@ class _MainScreenState extends State<MainScreen> {
                       ],
                     ),
                     trailing: const Icon(Icons.arrow_forward_rounded)),
+                // NOTE(Maxime):
+                // devices list might be useless for now, as it will be implemented later
+                // FIXME(Valentin): overflows down
+                /*
                 ListTile(
                     onTap: () {},
                     leading: const Icon(Icons.monitor),
@@ -82,8 +86,9 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     trailing: TextButton.icon(
                         onPressed: () {},
-                        icon: Icon(Icons.play_arrow),
-                        label: Text('Reprendre la lecture'))),
+                        icon: const Icon(Icons.play_arrow),
+                        label: const Text(''))),
+                */
               ],
             ),
           ),
@@ -96,18 +101,18 @@ class _MainScreenState extends State<MainScreen> {
               onTap: () {},
               iconColor: Colors.white,
               textColor: Colors.white,
-              title: Text('Titres likés'),
-              subtitle: Text('Voir la playlist'),
-              leading: Icon(Icons.star),
+              title: const Text('Titres likés'),
+              subtitle: const Text('Voir la playlist'),
+              leading: const Icon(Icons.star),
               trailing: const Icon(Icons.arrow_forward_rounded),
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         ListTile(
-          title: Text('Autres playlists'),
+          title: const Text('Autres playlists'),
           trailing: const Icon(Icons.arrow_forward_rounded),
           onTap: () {},
         ),
@@ -174,7 +179,7 @@ class _MainScreenState extends State<MainScreen> {
         elevation: 0,
       ),
       body: Center(
-        child: _ScreensOptions.elementAt(_selectedIndex),
+        child: _screensOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
