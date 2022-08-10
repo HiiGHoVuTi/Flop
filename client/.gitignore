@@ -1,5 +1,7 @@
 # Miscellaneous
 .envrc
+.direnv
+.direnv/*
 *.class
 *.log
 *.pyc
