@@ -2,5 +2,8 @@
 with import <nixpkgs> {};
 
 mkShell {
-  buildInputs = [ clojure clojure-lsp leiningen ];
+  buildInputs = [
+    postgresql_jdbc
+    clojure clojure-lsp leiningen
+  ];
 }
