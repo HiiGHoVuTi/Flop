@@ -5,7 +5,7 @@
   (:require [toucan.models :refer [defmodel IModel default-fields]])
   (:gen-class))
 
-(defmodel User :user
+(defmodel User :users
   IModel
   (default-fields [_]
     [:name]))

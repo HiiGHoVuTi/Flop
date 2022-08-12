@@ -21,7 +21,7 @@
 
 (defn create-dummy-users! []
   (jdbc/execute! (db/connection)  
-    (jdbc/create-table-ddl "\"user\""
+    (jdbc/create-table-ddl "users"
       [[:id :uuid :primary :key :default "uuid_generate_v4 ()"]
        [:name "varchar(32)"]]
       {:conditional? true}))
