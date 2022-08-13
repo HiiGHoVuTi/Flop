@@ -17,6 +17,7 @@ migrate_working_dir/
 .rebel_readline_history
 .clj-kondo
 .lsp
+target/
 
 # IntelliJ related
 *.iml
