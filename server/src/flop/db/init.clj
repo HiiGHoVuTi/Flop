@@ -31,7 +31,7 @@
 (defn create-dummy-data! []
   ; need this extension for uuid
   (jdbc/execute! (db/connection) 
-    "CREATE EXTENSION IF NOT EXISTS \"uuid-oosp\"")
+    "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"")
   ; create the table for songs
   (jdbc/execute! (db/connection)
     (jdbc/create-table-ddl "songs"

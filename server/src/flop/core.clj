@@ -16,6 +16,14 @@
     (if-let [data (flop.db.song/to-json id)]
       (json/write-str data)
       (not-found "No song with this id")))
+  (GET "/artist/:name" [name]
+    (if-let [data (flop.db.song/artist-as-json name)]
+      (json/write-str data)
+      (not-found "No artist with this exact name")))
+  (GET "/album/:name" [name]
+    (if-let [data (flop.db.song/album-as-json name)]
+      (json/write-str data)
+      (not-found "No album with this exact name")))
   (route/not-found "Error, page not found!"))
 
 (defn -main
