@@ -14,4 +14,5 @@
                     [honeysql/honeysql "1.0.461"]
                     [toucan/toucan "1.18.0"]
                     ]
-  :repl-options {:init-ns flop.core})
+  :repl-options {:init-ns flop.core}
+  :plugins [[lein-environ "0.4.0"]])

@@ -9,3 +9,8 @@
   IModel
   (default-fields [_]
     [:name]))
+
+(defmodel Song :songs
+  IModel
+  (default-fields [_]
+    [:path]))

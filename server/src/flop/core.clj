@@ -1,5 +1,6 @@
 (ns flop.core
-  (:require [org.httpkit.server :as server]
+  (:require [flop.env :as env]
+            [org.httpkit.server :as server]
             [compojure.core :refer [defroutes GET]]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
@@ -13,7 +14,7 @@
 (defn -main
   "This is our main entry point"
   [& _]
-  (let [port (Integer/parseInt (or (System/getenv "PORT") "3000"))]
+  (let [port (Integer/parseInt (or (env/get- :music-folder) "3000"))]
     (flop.db.init/setup-all!)
     ; Run the server with Ring.defaults middleware
     (server/run-server (wrap-defaults #'app-routes site-defaults) {:port port})
