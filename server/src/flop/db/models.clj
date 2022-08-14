@@ -13,4 +13,4 @@
 (defmodel Song :songs
   IModel
   (default-fields [_]
-    [:path]))
+    [:id :path]))

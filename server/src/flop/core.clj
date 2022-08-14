@@ -16,6 +16,10 @@
     (if-let [data (flop.db.song/to-json id)]
       (json/write-str data)
       (not-found "No song with this id")))
+  (GET "/song-search/:fuzzy" [fuzzy]
+    (if-let [data (flop.db.song/find-song-json fuzzy)]
+      (json/write-str data)
+      (not-found "How did you query something so wrong ?")))
   (GET "/artist/:name" [name]
     (if-let [data (flop.db.song/artist-as-json name)]
       (json/write-str data)

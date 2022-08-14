@@ -3,6 +3,7 @@
             [flop.db.models :refer [Song]]
             [toucan.db :as db]
             [clojure.java.io :as io]
+            [clj-fuzzy.metrics :refer [jaro]]
             [green-tags.core :as gt])
   (:gen-class))
   
@@ -26,7 +27,10 @@
   [entry]
   (some-> entry 
           :path gt/get-all-info
-          (select-keys [:title :artist :album :year])))
+          (select-keys [:title :artist :album :year])
+          (assoc :id (:id entry))))
+
+; Note(Maxime): exact search
 
 (defn to-json
   "turns a db ID into a json representation of the song"
@@ -36,11 +40,12 @@
 
 (defn criterion-as-json
   "returns a list of songs from disk according to a criterion"
-  [criterion]
+  ([criterion n] (take n (criterion-as-json criterion)))  
+  ([criterion]
   (transduce (comp (map db-song-to-json)
                    (filter criterion))
              merge []
-             (db/select-reducible Song)))
+             (db/select-reducible Song))))
 
 (defn folder-to-json-vec
   "tries to list songs in a given folder"
@@ -49,7 +54,7 @@
     (->> folder file-seq
              (map #(.getPath %))
              (filter #(.endsWith % "ogg"))
-             (map #(assoc {} :path %))
+             (map #(db/select-one Song :path %))
              (map db-song-to-json)
              (into []))))
 
@@ -65,3 +70,26 @@
   [exact-name]
   (folder-to-json-vec 
     (io/file (str util/music-path exact-name))))
+
+; NOTE(Maxime): fuzzy search
+
+(def fuzzy-score jaro)
+(def fuzzy-threshold 0.65)
+
+(defn fuzzy-search
+  ([criterion n] (take n (fuzzy-search criterion)))
+  ([criterion] 
+  (->> (transduce (comp (filter #(< fuzzy-threshold 
+                                    (criterion %))))
+                  merge []
+                 (db/select-reducible Song))
+        (sort-by criterion >))))
+
+(defn find-song-json
+  "tries to find a song from name and returns sorted results"
+  ([fuzzy-name n] (take n (find-song-json fuzzy-name)))
+  ([fuzzy-name] 
+    (map db-song-to-json 
+      (fuzzy-search
+        #(fuzzy-score fuzzy-name (-> %1 :path util/path->song))))))
+
