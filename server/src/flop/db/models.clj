@@ -14,3 +14,4 @@
   IModel
   (default-fields [_]
     [:id :path]))
+

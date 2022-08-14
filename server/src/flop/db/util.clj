@@ -31,4 +31,4 @@
   (let [[artist _ _] (analyse-path path)] artist))
 (defn path->album [path]
   (let [[_ album _] (analyse-path path)] album))
-	
+

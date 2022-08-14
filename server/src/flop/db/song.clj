@@ -79,8 +79,8 @@
 (defn fuzzy-search
   ([criterion n] (take n (fuzzy-search criterion)))
   ([criterion] 
-  (->> (transduce (comp (filter #(< fuzzy-threshold 
-                                    (criterion %))))
+  (->> (transduce (filter #(< fuzzy-threshold 
+                                    (criterion %)))
                   merge []
                  (db/select-reducible Song))
         (sort-by criterion >))))
