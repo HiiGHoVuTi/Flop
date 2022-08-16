@@ -1,7 +1,10 @@
 (ns flop.db.song
-  (:require [flop.db.util :as util]
+  (:require [clojure.string :as s]
+            [flop.env :as env]
+            [flop.db.util :as util]
             [flop.db.models :refer [Song]]
             [toucan.db :as db]
+            [clojure.java.shell :refer [sh]]
             [clojure.java.io :as io]
             [clj-fuzzy.metrics :refer [jaro]]
             [green-tags.core :as gt])
@@ -80,7 +83,7 @@
   ([criterion n] (take n (fuzzy-search criterion)))
   ([criterion] 
   (->> (transduce (filter #(< fuzzy-threshold 
-                                    (criterion %)))
+                              (criterion %)))
                   merge []
                  (db/select-reducible Song))
         (sort-by criterion >))))
@@ -93,3 +96,26 @@
       (fuzzy-search
         #(fuzzy-score fuzzy-name (-> %1 :path util/path->song))))))
 
+; importing songs
+(defn import-external!
+  "imports a song to the database and indexes it, using the provided command
+  the command is found in the `env.edn` file under the name :download-command
+  the command is a list like:
+  [`cmd` '--arg 1' '--arg 2']
+  and the query will be injected between `cmd` and the first argument 
+  "
+  [query]
+  (let [[cmd & args] (env/get- :download-command)]
+    (apply sh (into [cmd query] args)))
+  (for [file (-> util/music-path (str "new") io/file file-seq)
+        :when (.isFile file)
+        :when (not (.endsWith (.getPath file) ".spotdl-cache"))
+        :let [path (.getPath file)
+              newpath (-> path (s/replace (str util/music-path "new/") 
+                                               util/music-path)
+                               io/file .getParent
+                                              )]]
+    (do ; FIXME(Windows) 
+      (sh "mkdir" "--parents" newpath)
+      (sh "mv" path newpath)
+      (index! (str newpath (.getName file))))))

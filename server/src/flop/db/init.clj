@@ -44,7 +44,8 @@
   "Connects to the database and creates required data models"
   []
   (connect!)
-  (setup-models!))
+  (setup-models!)
+  :ok)
 
 (defn first-setup!
   "This function creates the databases
