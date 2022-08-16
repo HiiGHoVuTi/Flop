@@ -6,7 +6,7 @@
             [compojure.route :as route]
             [compojure.coercions :refer [as-int]]
             [ring.util.response :refer [not-found]]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [flop.db.init] [flop.db.song])
   (:gen-class))
 
@@ -36,5 +36,5 @@
   (let [port (or (env/get- :port) 3000)]
     (flop.db.init/setup-all!)
     ; Run the server with Ring.defaults middleware
-    (server/run-server (wrap-defaults #'app-routes site-defaults) {:port port})
+    (server/run-server (wrap-defaults #'app-routes api-defaults) {:port port})
     (println (str "Running webserver at http:/127.0.0.1:" port "/"))))
