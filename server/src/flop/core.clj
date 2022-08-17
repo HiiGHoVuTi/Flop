@@ -7,6 +7,7 @@
             [compojure.coercions :refer [as-int]]
             [ring.util.response :refer [not-found]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
+            [flop.stream]
             [flop.db.init] [flop.db.song])
   (:gen-class))
 
@@ -16,6 +17,10 @@
   (GET "/song-info/:id" [id :<< as-int]
     (if-let [data (flop.db.song/to-json id)]
       (json/write-str data)
+      (not-found "No song with this id")))
+  (GET "/play-song/:id" [id :<< as-int]
+    (if-let [response (flop.stream/stream-song id)]
+      response
       (not-found "No song with this id")))
   (GET "/song-search/" req
     (if-let [data (flop.db.song/find-song-json (util/body-as-text req))]
