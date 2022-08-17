@@ -3,6 +3,7 @@
             [toucan.db :as db]
             [toucan.models :as models]
             [clojure.java.jdbc :as jdbc]
+            [flop.db.song :as song]
             [flop.db.models :refer [User]])
   (:gen-class))
 
@@ -30,11 +31,26 @@
 (defn create-dummy-data! []
   ; need this extension for uuid
   (jdbc/execute! (db/connection) 
-    "CREATE EXTENSION IF NOT EXISTS \"uuid-oosp\"")
+    "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"")
+  ; create the table for songs
+  (jdbc/execute! (db/connection)
+    (jdbc/create-table-ddl "songs"
+      [[:id :serial :primary :key]
+       [:path "varchar(256)"]]
+      {:contitional? true}))
   (create-dummy-users!))
 
 (defn setup-all!
   "Connects to the database and creates required data models"
   []
   (connect!)
-  (setup-models!))
+  (setup-models!)
+  :ok)
+
+(defn first-setup!
+  "This function creates the databases
+  It should only be ran once on the server machine"
+  []
+  (setup-all!)
+  (create-dummy-data!)
+  (song/index-all!))

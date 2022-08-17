@@ -1,5 +1,7 @@
 # Miscellaneous
 .env
+.lein-env
+env.edn
 .envrc
 .direnv
 .direnv/*
@@ -16,6 +18,7 @@ migrate_working_dir/
 .rebel_readline_history
 .clj-kondo
 .lsp
+target/
 
 # IntelliJ related
 *.iml

@@ -13,5 +13,8 @@
                     [org.postgresql/postgresql "42.2.4"]
                     [honeysql/honeysql "1.0.461"]
                     [toucan/toucan "1.18.0"]
+                    [green-tags "0.3.0-alpha"]
+                    [clj-fuzzy "0.4.1"]
                     ]
-  :repl-options {:init-ns flop.core})
+  :repl-options {:init-ns flop.core}
+  :plugins [[lein-environ "0.4.0"]])
