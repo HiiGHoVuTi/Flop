@@ -45,10 +45,13 @@ class _PlayingScreenState extends State<PlayingScreen> {
             left: 0,
             right: 0,
             child: AppBar(
+              foregroundColor: Colors.white,
+              title: Text('Lecture en cours'),
+              centerTitle: true,
               elevation: 0,
               backgroundColor: Colors.transparent,
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(Icons.expand_more_rounded),
                 onPressed: () => Navigator.pop(context),
               ),
               actions: [
