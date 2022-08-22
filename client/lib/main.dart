@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flop/screens/home/home.dart';
 import 'package:flop/screens/playing/playing.dart';
 
@@ -11,6 +13,16 @@ class FlopApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English, no country code
+        Locale('fr', ''), // French, no country code
+      ],
       initialRoute: "/",
       routes: {
         "/": (context) => const MainScreen(),
@@ -65,11 +77,11 @@ class _MainScreenState extends State<MainScreen> {
         onDestinationSelected: (index) => setState(() {
           _selectedIndex = index;
         }),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Acceuil'),
-          NavigationDestination(icon: Icon(Icons.search), label: 'Rechercher'),
+        destinations: [
+          NavigationDestination(icon: const Icon(Icons.home), label: AppLocalizations.of(context).home),
+          NavigationDestination(icon: const Icon(Icons.search), label: AppLocalizations.of(context).search),
           NavigationDestination(
-              icon: Icon(Icons.music_note), label: 'Bibliothèque'),
+              icon: const Icon(Icons.music_note), label: AppLocalizations.of(context).library),
         ],
       ),
       bottomSheet: ListTile(

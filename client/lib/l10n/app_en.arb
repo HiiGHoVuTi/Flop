@@ -1,0 +1,14 @@
+{
+    "home": "Home",
+    "@home": {
+      "description": "The name of the Homepage"
+    },
+    "search": "Search",
+    "@search": {
+        "description": "The name of the Searchpage"
+    },
+    "library": "Library",
+    "@library": {
+        "description": "The name of the library page"
+    }
+}
