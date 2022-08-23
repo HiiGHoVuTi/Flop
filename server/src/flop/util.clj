@@ -1,5 +1,6 @@
 (ns flop.util
-  (:require [clojure.java.io :as io])
+  (:require [clojure.java.io :as io]
+            [clojure.string :as s])
   (:gen-class))
 
 (defn stream-bytes [is]
@@ -9,3 +10,6 @@
 
 (defn body-as-text [req]
   (-> req :body stream-bytes String.))
+
+(defn body-as-pair [req]
+  (-> req body-as-text s/split-lines))
