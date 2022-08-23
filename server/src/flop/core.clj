@@ -22,6 +22,10 @@
     (if-let [response (flop.stream/stream-song id)]
       response
       (not-found "No song with this id")))
+  (GET "/song-cover/:id" [id :<< as-int]
+    (if-let [response (flop.stream/stream-image id)]
+      response
+      (not-found "No song with this id")))
   (GET "/song-search/" req
     (if-let [data (flop.db.song/find-song-json (util/body-as-text req))]
       (json/write-str data)

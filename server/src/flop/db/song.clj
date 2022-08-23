@@ -30,7 +30,7 @@
   [entry]
   (some-> entry 
           :path gt/get-all-info
-          (select-keys [:title :artist :album :year])
+          (select-keys [:title :artist :album :year :genre])
           (assoc :id (:id entry))))
 
 ; Note(Maxime): exact search
