@@ -30,7 +30,7 @@
   [entry]
   (some-> entry 
           :path gt/get-all-info
-          (select-keys [:title :artist :album :year])
+          (select-keys [:title :artist :album :year :genre])
           (assoc :id (:id entry))))
 
 ; Note(Maxime): exact search
@@ -113,8 +113,7 @@
         :let [path (.getPath file)
               newpath (-> path (s/replace (str util/music-path "new/") 
                                                util/music-path)
-                               io/file .getParent
-                                              )]]
+                               io/file .getParent)]]
     (do ; FIXME(Windows) 
       (sh "mkdir" "--parents" newpath)
       (sh "mv" path newpath)

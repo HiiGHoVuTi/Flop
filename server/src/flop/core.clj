@@ -7,7 +7,8 @@
             [compojure.coercions :refer [as-int]]
             [ring.util.response :refer [not-found]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
-            [flop.db.init] [flop.db.song])
+            [flop.stream]
+            [flop.db.init] [flop.db.song] [flop.db.playlist])
   (:gen-class))
 
     
@@ -16,6 +17,14 @@
   (GET "/song-info/:id" [id :<< as-int]
     (if-let [data (flop.db.song/to-json id)]
       (json/write-str data)
+      (not-found "No song with this id")))
+  (GET "/play-song/:id" [id :<< as-int]
+    (if-let [response (flop.stream/stream-song id)]
+      response
+      (not-found "No song with this id")))
+  (GET "/song-cover/:id" [id :<< as-int]
+    (if-let [response (flop.stream/stream-image id)]
+      response
       (not-found "No song with this id")))
   (GET "/song-search/" req
     (if-let [data (flop.db.song/find-song-json (util/body-as-text req))]
@@ -29,6 +38,23 @@
     (if-let [data (flop.db.song/album-as-json (util/body-as-text req))]
       (json/write-str data)
       (not-found "No album with this exact name")))
+  (GET "/playlist/:id" [id :<< as-int]
+    (if-let [data (flop.db.playlist/get-json id)]
+      (json/write-str data)
+      (not-found "No playlist with this id")))
+  (GET "/playlist-songs/:id" [id :<< as-int]
+    (if-let [data (flop.db.playlist/list-json id)]
+      (json/write-str data)
+      (not-found "No playlist with this id")))
+  (POST "/create-playlist/" req
+    (let [query (util/body-as-text req)]
+      (flop.db.playlist/create! query)))
+  (POST "/add-to-playlist/" req
+    (let [query (util/body-as-pair req)]
+      (apply flop.db.playlist/add-song! query)))
+  (POST "/remove-from-playlist/" req
+    (let [query (util/body-as-pair req)]
+      (apply flop.db.playlist/remove-song! query)))
   (POST "/import-song/" req 
     (let [query (util/body-as-text req)]
       (flop.db.song/import-external! query)))

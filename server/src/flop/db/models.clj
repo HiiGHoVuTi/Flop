@@ -15,3 +15,12 @@
   (default-fields [_]
     [:id :path]))
 
+(defmodel Playlist :playlists
+  IModel 
+  (default-fields [_]
+    [:id :name]))
+
+(defmodel Song-in-Playlist :song_playlist
+  IModel
+  (default-fields [_]
+    [:song_id :playlist_id]))

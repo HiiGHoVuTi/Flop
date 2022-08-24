@@ -32,12 +32,23 @@
   ; need this extension for uuid
   (jdbc/execute! (db/connection) 
     "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"")
-  ; create the table for songs
+  ; create the table for songs and playlists
   (jdbc/execute! (db/connection)
     (jdbc/create-table-ddl "songs"
       [[:id :serial :primary :key]
        [:path "varchar(256)"]]
       {:contitional? true}))
+  (jdbc/execute! (db/connection)
+    (jdbc/create-table-ddl "playlists"
+      [[:id :serial :primary :key]
+       [:name "varchar(64)"]]
+      {:conditional? true}))
+  (jdbc/execute! (db/connection)
+    (jdbc/create-table-ddl "song_playlist"
+      [[:song_id :integer :not :null]
+       [:playlist_id :integer :not :null]
+       [:primary "key(song_id, playlist_id)"]]
+      {:conditional? true}))
   (create-dummy-users!))
 
 (defn setup-all!
@@ -53,4 +64,5 @@
   []
   (setup-all!)
   (create-dummy-data!)
-  (song/index-all!))
+  (song/index-all!)
+  :ok)
