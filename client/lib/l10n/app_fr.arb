@@ -1,0 +1,13 @@
+{
+    "home": "Acceuil",
+    "search": "Rechercher",
+    "library": "Bibliothèque",
+    "nowplaying": "Lecture depuis la playlist",
+    "your_music": "Votre musique",
+    "switch_account": "Changer de profil",
+    "liked_songs": "Titres likés",
+    "shuffle_play": "Lecture aléatoire",
+    "history": "Historique",
+    "top_listened": "Votre top",
+    "import": "Importer"
+}

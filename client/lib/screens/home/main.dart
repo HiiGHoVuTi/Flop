@@ -1,109 +1,125 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-Widget home = Column(
-  children: [
-    const Padding(
-      padding: EdgeInsets.symmetric(vertical: 25),
-      child: Text(
-        'Bonjour Maxime, comment se passe votre journée ?',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-        textAlign: TextAlign.center,
-      ),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        child: Column(
-          children: [
-            ListTile(
-                onTap: () {},
-                leading: const Icon(Icons.device_hub),
-                title: const Text('Statut du serveur'),
-                subtitle: Row(
-                  children: const [
-                    Icon(
-                      Icons.circle,
-                      color: Colors.green,
-                      size: 15,
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      'En Ligne',
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                trailing: const Icon(Icons.arrow_forward_rounded)),
-            // NOTE(Maxime):
-            // devices list might be useless for now, as it will be implemented later
-            // FIXME(Valentin): overflows down
-            /*
-                ListTile(
+Widget home(context) {
+  return CustomScrollView(
+    slivers: <Widget>[
+      SliverList(
+          delegate: SliverChildBuilderDelegate(
+              (context, index) => ListTile(
                     onTap: () {},
-                    leading: const Icon(Icons.monitor),
-                    title: const Text('PC Maxime'),
-                    subtitle: Row(
-                      children: const [
-                        Icon(
-                          Icons.music_note_rounded,
-                          color: Colors.blue,
-                          size: 15,
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 50,
                         ),
-                        SizedBox(width: 5),
-                        Text(
-                          'Mécanique des fluides - Luidji',
-                          style: TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.bold),
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(45.0),
+                              child: const Image(
+                                image:
+                                    AssetImage('assets/floppa_pictures/1.jpg'),
+                                width: 60,
+                                height: 60,
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            const SizedBox(width: 15),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const Text(
+                                  'Maxime',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25),
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.swap_horiz,
+                                      size: 20,
+                                      color: Colors.blueGrey,
+                                    ),
+                                    Text(
+                                      AppLocalizations.of(context)
+                                          .switch_account,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 15,
+                                          color: Colors.blueGrey),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ],
                     ),
-                    trailing: TextButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.play_arrow),
-                        label: const Text(''))),
-                */
-          ],
-        ),
-      ),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Colors.lightBlue,
-        child: ListTile(
-          onTap: () {},
-          iconColor: Colors.white,
-          textColor: Colors.white,
-          title: const Text('Titres likés'),
-          subtitle: const Text('Voir la playlist'),
-          leading: const Icon(Icons.star),
-          trailing: const Icon(Icons.arrow_forward_rounded),
-        ),
-      ),
-    ),
-    const SizedBox(
-      height: 10,
-    ),
-    ListTile(
-      title: const Text('Autres playlists'),
-      trailing: const Icon(Icons.arrow_forward_rounded),
-      onTap: () {},
-    ),
-    Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GridView.count(
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        crossAxisCount: 3,
-        children: List.generate(5, (index) {
-          return const Card(
-            child: Text('Playlist cover'),
-          );
-        }),
-      ),
-    ),
-  ],
-);
+                  ),
+              childCount: 1)),
+      SliverList(
+          delegate: SliverChildBuilderDelegate(
+              (context, index) => Column(
+                    children: [
+                      ListTile(
+                        title: Text(AppLocalizations.of(context).your_music),
+                        trailing: TextButton.icon(
+                            onPressed: () {},
+                            icon: const Icon(Icons.shuffle),
+                            label: Text(
+                                AppLocalizations.of(context).shuffle_play)),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                        Icons.favorite_border_outlined),
+                                    label: Text(AppLocalizations.of(context)
+                                        .liked_songs)),
+                              ),
+                              const SizedBox(width: 15),
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.history),
+                                    label: Text(
+                                        AppLocalizations.of(context).history)),
+                              ),
+                            ],
+                          )),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.trending_up),
+                                    label: Text(AppLocalizations.of(context)
+                                        .top_listened)),
+                              ),
+                              const SizedBox(width: 15),
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.import_export),
+                                    label: Text(
+                                        AppLocalizations.of(context).import)),
+                              ),
+                            ],
+                          )),
+                    ],
+                  ),
+              childCount: 1))
+    ],
+  );
+}
