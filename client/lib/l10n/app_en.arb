@@ -10,5 +10,37 @@
     "library": "Library",
     "@library": {
         "description": "The name of the library page"
+    },
+    "nowplaying": "Playing from playlist",
+    "@nowplaying": {
+        "description": "The header of the player page"
+    },
+    "your_music": "Your music", 
+    "@your_music": {
+        "description": "Your music"
+    },
+    "switch_account": "Switch account", 
+    "@switch_account": {
+        "description": "Change the profil of the user"
+    },
+    "liked_songs": "Liked songs",
+    "@liked_songs": {
+        "description": "Liked songs"
+    },
+    "shuffle_play": "Shuffle", 
+    "@shuffle_play": {
+        "description": "Play all the songs randomly"
+    },
+    "history": "History", 
+    "@history": {
+        "description": "History of the player"
+    },
+    "top_listened": "Most played", 
+    "@top_listened": {
+        "description": "Most played songs"
+    },
+    "import": "Import", 
+    "@import": {
+        "description": "Import songs from other sources"
     }
 }

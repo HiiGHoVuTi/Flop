@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:math';
 import 'player_state.dart';
@@ -46,7 +49,30 @@ class _PlayingScreenState extends State<PlayingScreen> {
             right: 0,
             child: AppBar(
               foregroundColor: Colors.white,
-              title: Text('Lecture en cours'),
+              title: ListTile(
+                onTap: () {}, // go to playlist screen
+                textColor: Colors.white,
+                title: Column(
+                  children: [
+                    Text(
+                      AppLocalizations.of(context).nowplaying,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
+                subtitle: Column(
+                  children: const [
+                    Text(
+                      "Liked songs",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
               centerTitle: true,
               elevation: 0,
               backgroundColor: Colors.transparent,
@@ -56,7 +82,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
               ),
               actions: [
                 IconButton(
-                  icon: const Icon(Icons.info_outline),
+                  icon: const Icon(Icons.more_vert_rounded),
                   onPressed: () {},
                 )
               ],
@@ -66,7 +92,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
           Positioned(
             left: 0,
             right: 0,
-            top: height * 0.16,
+            top: height * 0.140,
             height: height * 0.80,
             child: Container(
               decoration: BoxDecoration(
@@ -74,6 +100,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                 color: Colors.white,
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(height: height * 0.05),
                   FlutterLogo(
@@ -101,51 +128,63 @@ class _PlayingScreenState extends State<PlayingScreen> {
                             child: Text(
                                 "${playerState.duration.inMinutes.remainder(60)}:${playerState.duration.inSeconds.remainder(60).toString().padLeft(2, '0')}")),
                       ]),
-                  Slider(
-                    activeColor: Colors.blue,
-                    inactiveColor: Colors.grey,
-                    value: playerState.position.inSeconds.toDouble(),
-                    min: 0,
-                    max: playerState.duration.inSeconds.toDouble(),
-                    onChanged: (value) => playerState.seekTo(value),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Slider(
+                      activeColor: Colors.blue,
+                      inactiveColor: Colors.grey,
+                      value: playerState.position.inSeconds.toDouble(),
+                      min: 0,
+                      max: playerState.duration.inSeconds.toDouble(),
+                      onChanged: (value) => playerState.seekTo(value),
+                    ),
                   ),
                   // NOTE(Maxime): Fast forward and backward aren't programmed yet
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    IconButton(
-                      iconSize: 42,
-                      color: playerState.shuffling ? Colors.blue : Colors.grey,
-                      icon: const Icon(Icons.shuffle_rounded),
-                      onPressed: () => setState(
-                          () => playerState.shuffling = !playerState.shuffling),
-                    ),
-                    IconButton(
-                      iconSize: 42,
-                      color: Colors.blue,
-                      icon: const Icon(Icons.fast_rewind),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                        iconSize: 72,
-                        color: Colors.blue,
-                        icon: Icon(
-                            playerState.player.state == PlayerState.playing
-                                ? Icons.pause_circle
-                                : Icons.play_circle),
-                        onPressed: () => setState(playerState.switchPlay)),
-                    IconButton(
-                      iconSize: 42,
-                      color: Colors.blue,
-                      icon: const Icon(Icons.fast_forward),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      iconSize: 42,
-                      color: playerState.looping ? Colors.blue : Colors.grey,
-                      icon: const Icon(Icons.repeat_rounded),
-                      onPressed: () => setState(
-                          () => playerState.looping = !playerState.looping),
-                    ),
-                  ]),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            iconSize: 35,
+                            color: playerState.shuffling
+                                ? Colors.blue
+                                : Colors.grey,
+                            icon: const Icon(Icons.shuffle_rounded),
+                            onPressed: () => setState(() =>
+                                playerState.shuffling = !playerState.shuffling),
+                          ),
+                          IconButton(
+                            iconSize: 35,
+                            color: Colors.blue,
+                            icon: const Icon(Icons.fast_rewind),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                              iconSize: 72,
+                              color: Colors.blue,
+                              icon: Icon(playerState.player.state ==
+                                      PlayerState.playing
+                                  ? Icons.pause_circle
+                                  : Icons.play_circle),
+                              onPressed: () =>
+                                  setState(playerState.switchPlay)),
+                          IconButton(
+                            iconSize: 35,
+                            color: Colors.blue,
+                            icon: const Icon(Icons.fast_forward),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            iconSize: 35,
+                            color:
+                                playerState.looping ? Colors.blue : Colors.grey,
+                            icon: const Icon(Icons.repeat_rounded),
+                            onPressed: () => setState(() =>
+                                playerState.looping = !playerState.looping),
+                          ),
+                        ]),
+                  ),
                 ],
               ),
             ),

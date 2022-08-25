@@ -42,8 +42,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  final _homeOptions = homeScreensOptions;
-
   Route _toMediaPlayerRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
@@ -68,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _homeOptions.elementAt(_selectedIndex),
+        child: homeScreensOptions(context).elementAt(_selectedIndex),
       ),
       bottomNavigationBar: NavigationBar(
         height: 70,
@@ -78,13 +76,21 @@ class _MainScreenState extends State<MainScreen> {
           _selectedIndex = index;
         }),
         destinations: [
-          NavigationDestination(icon: const Icon(Icons.home), label: AppLocalizations.of(context).home),
-          NavigationDestination(icon: const Icon(Icons.search), label: AppLocalizations.of(context).search),
           NavigationDestination(
-              icon: const Icon(Icons.music_note), label: AppLocalizations.of(context).library),
+              icon: const Icon(Icons.home),
+              label: AppLocalizations.of(context).home),
+          NavigationDestination(
+              icon: const Icon(Icons.search),
+              label: AppLocalizations.of(context).search),
+          NavigationDestination(
+              icon: const Icon(Icons.music_note),
+              label: AppLocalizations.of(context).library),
         ],
       ),
       bottomSheet: ListTile(
+        tileColor: Colors.blue,
+        textColor: Colors.white,
+        iconColor: Colors.white,
         onTap: () => Navigator.of(context).push(_toMediaPlayerRoute()),
         leading: const FlutterLogo(size: 35),
         title: const Text(
